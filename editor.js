@@ -36,10 +36,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
 
 // Test outputs
-console.log(location.origin); // Returns http://127.0.0.1:5500
+console.log(`> location.origin => ${location.origin}`); // Returns http://127.0.0.1:5500
 
 
 bannerImage.addEventListener('change', () => {
+    console.log(`> Uploading banner image on server...`);
     uploadImage(bannerImage, "banner");
 })
 
@@ -67,7 +68,11 @@ const uploadImage = (uploadFile, uploadType) => {
                     addImage(data, file.name);
                 } else {
                     // Handle upload image for banner
+                    console.log("> Uploaded banner image on server.");
+                    console.log(`> Current location.origin: ${location.origin}`);
+                    console.log(`> Json response from the server (image upload location): ${data}`);
                     bannerPath = `${location.origin}/${data}`;
+                    console.log(`Banner image URL: ${bannerPath}`);
                     banner.style.backgroundImage = `url("${bannerPath}")`;
                 }
             })
@@ -99,19 +104,24 @@ publishBtn.addEventListener('click', () => {
         let docName = `${blogTitle}-${id}`;
         let date = new Date(); // for published at info
 
+        // Handle empty banner path
+        if (typeof bannerPath == undefined){
+            bannerPath=null
+        }
 
         //access firstore with db variable;
         try {
             // Add a new document in collection blogs
-            console.log(bannerPath);
+            console.log(`> Banner path at the time of hitting publish: ${bannerPath}`);
+            console.log(`> Publishing time: ${new Date().toLocaleString()}`);
             setDoc(doc(db, "blogs", docName), {
                 title: blogTitleField.value,
                 article: articleFeild.value,
                 bannerImage: bannerPath,
-                publishedAt: `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+                publishedAt: `${new Date().toLocaleString()}`
             });
 
-            // location.href = `/${docName}`;
+            location.href = `/${docName}`;
         }
         catch (e){
             console.error(`Error occured whlie uploading to firebase: ${e}`)
