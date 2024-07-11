@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Landing page In Progress</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    
+</head>
+
+
+<body>
+
+    <nav class="navbar pixel-font">
+        <ul class="links-container">
+            <li class="link-item"><a href="/" class="link">Home</a></li>
+            <li class="link-item"><a href="./editor.html" class="link">Editor</a></li>
+        </ul>
+    </nav>
+    <br>
+    <header>
+
+        <!-- First container -->
+        <div class="container container_solid">
+            <div class="title_wrapper">
+                <div class="h1 kalam-heading-quote blur-background">
+                    <div>
+                        Happiness does not lie in happiness,<br>
+                        but in the achievement of it.
+                    </div>
+                    <br>
+                    <div class="kalam-heading-author">
+                        ~Fyodor Dostoevsky
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second container -->
+        <div class="container container_image" aria-hidden="true">
+            <div class="title_wrapper">
+                <h1 class="h1 pixel-font">Welcome</h1>
+            </div>
+        </div>
+
+    </header>
+
+    <section class="spotify-section">
+        <h2>This is a custom spotify element</h2>
+
+        <div class="spotify-element">
+            <div class="playlists">
+                <button class="playlist" data-spotify-id="spotify:playlist:37i9dQZF1DX6QClArDhvcW">
+                    Refreshing mornings...
+                </button>
+                <button class="playlist" data-spotify-id="spotify:playlist:0NSj06X0oIoDaBkR9MxB2c">
+                    Calm evenings...
+                </button>
+                <button class="playlist" data-spotify-id="spotify:playlist:37i9dQZF1DZ06evO2weiuA">
+                    Featured this month...
+                </button>
+            </div>
+
+            <div id="embed-iframe">
+                <!-- This entire div gets replaced by an inframe via Spotify API. -->
+            </div>
+
+        <script src="https://open.spotify.com/embed/iframe-api/v1" async>
+        </script>
+        <script type="text/javascript">
+            window.onSpotifyIframeApiReady = (IFrameAPI) => {
+                // Replace below specified div with requested player via API
+                const element = document.getElementById('embed-iframe');
+                const options = {
+                    width: "100%",
+                    height: "160",
+                    uri: 'spotify:playlist:37i9dQZF1DX6QClArDhvcW'
+                    // Color of this element is a nice brown RGB (171, 103, 23) or #ab6717
+                };
+                const callback = (EmbedController) => {
+                    document.querySelectorAll('.episode').forEach(
+                        episode => {
+                            episode.addEventListener('click', () => {
+                                EmbedController.loadUri(episode.dataset.spotifyId)
+                            });
+                        })
+                    document.querySelectorAll('.playlist').forEach(
+                        playlist => {
+                            playlist.addEventListener('click', () => {
+                                EmbedController.loadUri(playlist.dataset.spotifyId)
+                            })
+                        }
+                    )
+                };
+                IFrameAPI.createController(element, options, callback);
+            };
+        </script>
+
+        </div>
+
+
+    </section>
+    <section class="three-js-section">
+
+        <h2>Add your three-js design here.</h2>
+        <p>Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+            minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+            occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>
+            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem
+            aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni
+            dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor
+            sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore
+            magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis
+            suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in
+            ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas
+            nulla pariatur?
+        </p>
+    </section>
+    <section class="blogs-section">
+        <div class="blog-card">
+            <img src="./img/chill_out.png" class="blog-image" alt="">
+            <h1 class="blog-title">This will be the blogs section.</h1>
+            <p class="blog-overview">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt incidunt fugiat quos
+                porro repellat harum. Adipisci tempora corporis rem cum.
+            </p>
+            <a href="/" class="btn dark pixel-font link">read</a>
+        </div>
+    </section>
+</body>
+
+</html>

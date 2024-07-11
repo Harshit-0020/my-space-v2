@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Editor</title>
+    <link rel="stylesheet" type="text/css" href="./css/index.css">
+    <link rel="stylesheet" type="text/css" href="./css/editor.css">
+
+
+    <script src="./firebase.js" type="text/javascript"></script>
+    <script src="./editor.js" defer type="text/javascript"></script>
+
+</head>
+
+<body>
+    <div class="banner">
+        <input type="file" accept="image/*" id="banner-upload" hidden>
+        <label for="banner-upload" class="banner-upload-btn"><img src="img/ready_full.ico" alt="upload banner"></label>
+    </div>
+
+    <div class="blog">
+        <textarea type="text" class="title" placeholder="Blog title..."></textarea>
+        <textarea type="text" class="article" placeholder="Start writing here..."></textarea>
+    </div>
+
+    <div class="blog-options">
+        <button class="btn dark publish-btn">publish</button>
+        <input type="file" accept="image/*" id="image-upload" hidden>
+        <label for="image-upload" class="btn upload-btn work-sans-font regular-weight">Upload Image</label>
+    </div>
+
+
+
+</body>
+
+</html>

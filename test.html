@@ -1,0 +1,44 @@
+<html lang="en">
+
+<head>
+    <title>A Spotify Embed Example</title>
+</head>
+
+<body>
+    <div id="embed-iframe">
+        <iframe style="border-radius:12px"
+            src="https://open.spotify.com/embed/episode/399eqvESdUHzyWseMnL0eu?utm_source=generator" width="100%"
+            height="352" frameBorder="0" allowfullscreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy">
+
+        </iframe>
+    </div>
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async>
+    </script>
+    <script type="text/javascript">
+        window.onSpotifyIframeApiReady = (IFrameAPI) => {
+            const element = document.getElementById('embed-iframe');
+            const options = {
+                width: '100%',
+                height: '160',
+                uri: 'spotify:episode:7makk4oTQel546B0PZlDM5'
+            };
+            const callback = (EmbedController) => {
+                document.querySelectorAll('.episode').forEach(
+                    episode => {
+                        episode.addEventListener('click', () => {
+                            EmbedController.loadUri(episode.dataset.spotifyId)
+                        });
+                    })
+            };
+            IFrameAPI.createController(element, options, callback);
+        };
+    </script>
+</body>
+
+</html>
+
+
+
+<!-- Test this playlist -->
+ <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/37i9dQZF1DX6QClArDhvcW?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
