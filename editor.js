@@ -1,3 +1,6 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
+import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+
 const blogTitleField = document.querySelector(".title");
 const articleFeild = document.querySelector('.article');
 
@@ -10,6 +13,27 @@ let bannerPath;
 const publishBtn = document.querySelector(".publish-btn");
 const uploadInput = document.querySelector("#image-upload");
 
+
+// Create firestore database here
+const firebaseConfig = {
+
+    apiKey: "AIzaSyCMZS2dsjOONYXNTEWykuhe_c6gS3vRbE4",
+
+    authDomain: "my-space-40ad1.firebaseapp.com",
+
+    projectId: "my-space-40ad1",
+
+    storageBucket: "my-space-40ad1.appspot.com",
+
+    messagingSenderId: "646230291297",
+
+    appId: "1:646230291297:web:ed11ae122b8be8b7578b20"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app)
 
 // Test outputs
 console.log(location.origin); // Returns http://127.0.0.1:5500
@@ -60,14 +84,14 @@ const addImage = (imagepath, alt) => {
     articleFeild.value = articleFeild.value.slice(0, curPos) + textToInsert + articleFeild.value.slice(curPos);
 }
 
-let months = ['Jan','Feb','Mar', 'Apr',' May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+let months = ['Jan', 'Feb', 'Mar', 'Apr', ' May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 publishBtn.addEventListener('click', () => {
-       if(articleFeild.value.length && blogTitleField.value.length){
+    if (articleFeild.value.length && blogTitleField.value.length) {
         // generating id
         let letters = 'abcdefghijklmnopqrstuvwxyz';
         let blogTitle = blogTitleField.value.split(" ").join("-");
         let id = '';
-        for(let  i= 0;  i< 4; i++){
+        for (let i = 0; i < 4; i++) {
             id += letters[Math.floor(Math.random() * letters.length)];
         }
 
@@ -77,17 +101,21 @@ publishBtn.addEventListener('click', () => {
 
 
         //access firstore with db variable;
-        db.collection("blogs").doc(docName).set({
-            title: blogTitleField.value,
-            article: articleFeild.value,
-            bannerImage: bannerPath,
-            publishedAt: `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
-        })
-        .then(() => {
-            location.href = `/${docName}`;
-        })
-        .catch((err) => {
-            console.error(err);
-        })
+        try {
+            // Add a new document in collection blogs
+            console.log(bannerPath);
+            setDoc(doc(db, "blogs", docName), {
+                title: blogTitleField.value,
+                article: articleFeild.value,
+                bannerImage: bannerPath,
+                publishedAt: `${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()}`
+            });
+
+            // location.href = `/${docName}`;
+        }
+        catch (e){
+            console.error(`Error occured whlie uploading to firebase: ${e}`)
+        }
+        console.log("Successfully pushed to firestore.")
     }
 })
