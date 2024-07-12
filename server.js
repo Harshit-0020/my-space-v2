@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fileupload = require('express-fileupload')
+const port = process.env.PORT || 3000;
 
 // dirname : /home/ares/Programs/My-space-v2
 let initial_path = path.join(__dirname)
@@ -16,7 +17,7 @@ app.get('/',(req, res) => {
     console.log(initial_path)
 })
 
-app.listen("3000", () =>{
+app.listen(port, () =>{
     console.log('listening......');
 })
 
@@ -37,4 +38,12 @@ app.post('/upload', (req, res) => {
             res.json(`uploads/${imagename}`)
         }
     })
+})
+
+app.get("/:canBeAnything", (req, res) => {      // GET call Triggers on redirecting to any webpage.
+    res.sendFile((path.join(initial_path, "blog.html")));
+})
+
+app.use((req, res) => {
+    res.json("404");
 })

@@ -120,7 +120,7 @@ publishBtn.addEventListener('click', () => {
                 bannerImage: bannerPath,
                 publishedAt: `${new Date().toLocaleString()}`
             });
-
+            
             location.href = `/${docName}`;
         }
         catch (e){
