@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
 // Create firestore database here
 const firebaseConfig = {
@@ -19,22 +19,25 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const authInstance = getAuth(app)
 
-console.log("> Publishing inside firebase.js...");
-setDoc(doc(db, "blogs", 'x86-64'), {
-                title: 'test',
-                article: 'test',
-                bannerImage: 'test',
-                publishedAt: `${new Date().toLocaleString()}`
-            });
+export function logoutUser(){
+  authInstance.signOut();
+  location.reload();
+}
 
-console.log("> Publishing complete!")
-console.log(`> DB object before export: ${db}`)
-
+// setDoc(doc(db, "blogs", "test"), {
+//   title: "test",
+//   article: "test",
+//   bannerImage: "test",
+//   publishedAt: `${new Date().toLocaleString()}`
+// });
+// console.log("> Blog pushed from inside Firebase.js")
 
 var test = {
-    "db": db,
-    white: "#fff"
+  "db": db,
+  "config": firebaseConfig,
+  "app": app,
+  "auth": authInstance
 };
-
-export {test, db};
+export { test };

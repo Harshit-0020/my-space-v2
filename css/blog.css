@@ -36,3 +36,10 @@
     margin: 30px auto;
     object-fit: contain;
 }
+.sub-heading{
+    padding: 0 5vw;
+    color: #2d2d2d;
+    font-weight: 500;
+    font-size: 40px;
+    margin-top: 80px;
+}

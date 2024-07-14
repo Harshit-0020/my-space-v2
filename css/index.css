@@ -102,11 +102,12 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
 }
-.bold-weight{
+
+.bold-weight {
     font-weight: 800;
 }
 
-.regular-weight{
+.regular-weight {
     font-weight: 500;
 }
 
@@ -244,6 +245,16 @@ section p {
     margin-bottom: 10px;
 }
 
+.btn {
+
+    padding: 0.5vw 0.8vw;
+    text-transform: capitalize;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
 .blog-overview {
     margin: 10px 0 20px;
     line-height: 30px;
@@ -257,7 +268,7 @@ section p {
     border-radius: 12px;
 }
 
-.blog-options{
+.blog-options {
     position: fixed;
     bottom: 0;
     left: 0;
@@ -270,13 +281,7 @@ section p {
     align-items: center;
 }
 
-.btn{
-    border: none;
-    outline: none;
-    cursor: pointer;
-}
-
-.btn.upload-btn{
+.btn.upload-btn {
     background: #475437;
     /* color: #b09f81; */
     color: #eee9cc;
@@ -284,36 +289,37 @@ section p {
     text-transform: capitalize;
     border-radius: 12px;
 }
-.btn.upload-btn:hover{
+
+.btn.upload-btn:hover {
     background: #668F31;
-    color:#eee9cc
+    color: #eee9cc
 }
 
 /* Spotify element CSS */
-    .playlists {
-      display: flex;
-      flex-direction: column;
-    }
+.playlists {
+    display: flex;
+    flex-direction: column;
+}
 
-    .playlist {
-      min-width: max-content;
-      margin-bottom: .8rem;
-      padding: .8rem 1rem;
-      border-radius: 10px;
-      border: 0;
-      background: #191414;
-      color: #fff;
-      cursor: pointer;
-    }
+.playlist {
+    min-width: max-content;
+    margin-bottom: .8rem;
+    padding: .8rem 1rem;
+    border-radius: 10px;
+    border: 0;
+    background: #191414;
+    color: #fff;
+    cursor: pointer;
+}
 
-    .playlist:hover {
-      background: #1Db954;
-    }
+.playlist:hover {
+    background: #1Db954;
+}
 
-    @media screen and (min-width: 860px) {
-      .spotify-element {
+@media screen and (min-width: 860px) {
+    .spotify-element {
         display: flex;
         flex-direction: row;
         gap: 1rem;
-      }
     }
+}

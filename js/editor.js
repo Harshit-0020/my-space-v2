@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
-import {test, db} from "./firebase.js";
+import { test } from "./firebase.js";
 
 const blogTitleField = document.querySelector(".title");
 const articleFeild = document.querySelector('.article');
@@ -35,6 +35,7 @@ const uploadInput = document.querySelector("#image-upload");
 
 // const app = initializeApp(firebaseConfig);
 // const db = getFirestore(app);
+const db = test.db;
 console.log(`> This is the initial db object: ${db.toString()}`)
 
 
@@ -61,7 +62,8 @@ const uploadImage = (uploadFile, uploadType) => {
                     console.log("> Uploaded banner image on server.");
                     console.log(`> Current location.origin: ${location.origin}`);
                     console.log(`> Json response from the server (image upload location): ${data}`);
-                    bannerPath = `${location.origin}/${data}`;
+                    console.log(`> IMAGE DATA from server: ${data}`);
+                    bannerPath = `${location.origin}/${encodeURIComponent(data)}`;
                     console.log(`Banner image URL: ${bannerPath}`);
                     banner.style.backgroundImage = `url("${bannerPath}")`;
                 }
@@ -74,8 +76,9 @@ const uploadImage = (uploadFile, uploadType) => {
 // Handle upload image button for blog body
 const addImage = (imagepath, alt) => {
     // add image text at current position of cursor inside write blog area.
+    let imagepathWithOrigin = `${location.origin}/${imagepath}`;
     let curPos = articleFeild.selectionStart;
-    let textToInsert = `\r![${alt}](${imagepath})\r`;
+    let textToInsert = `\r![${alt}](${imagepathWithOrigin})\r`;
     articleFeild.value = articleFeild.value.slice(0, curPos) + textToInsert + articleFeild.value.slice(curPos);
 }
 
@@ -86,85 +89,104 @@ let months = ['Jan', 'Feb', 'Mar', 'Apr', ' May', 'Jun', 'Jul', 'Aug', 'Sep', 'O
 
 
 
-// Test outputs
-console.log(`> location.origin => ${location.origin}`); // Returns http://127.0.0.1:5500
-
 // TESTING HERE //
-var colorCode = {
-    black: "#000",
-    white: "#fff"
-};
+// Test outputs
+// console.log(`> location.origin => ${location.origin}`); // Returns http://127.0.0.1:5500
+// setDoc(doc(db, "blogs", "test"), {
+//     title:"test",
+//     article: "test",
+//     bannerImage: "test",
+//     publishedAt: `${new Date().toLocaleString()}`,
+//     // author: test.auth.currentUser.email.split("@")[0]
+// });
 
-const db2 = test.db;
+// var colorCode = {
+//     black: "#000",
+//     white: "#fff"
+// };
 
-console.log("> Publishing inside test editor.js...");
-setDoc(doc(db2, "blogs", 'x32'), {
-                title: 'test',
-                article: 'test',
-                bannerImage: 'test',
-                publishedAt: `${new Date().toLocaleString()}`
-            });
+// const db2 = test.db;
+
+// console.log("> Publishing inside test editor.js...");
+// setDoc(doc(db2, "blogs", 'x32'), {
+//                 title: 'test',
+//                 article: 'test',
+//                 bannerImage: 'test',
+//                 publishedAt: `${new Date().toLocaleString()}`
+//             });
 
 // TESTING OVER //
 
 
-if (bannerImage != null){
+if (bannerImage != null) {
 
 
-bannerImage.addEventListener('change', () => {
-    console.log(`> Uploading banner image on server...`);
-    sessionStorage.setItem('bannerImage', bannerImage);
-    uploadImage(bannerImage, "banner");
-});
+    bannerImage.addEventListener('change', () => {
+        console.log(`> Uploading banner image on server...`);
+        uploadImage(bannerImage, "banner");
+    });
 
 
 
-uploadInput.addEventListener('change', () => {
-    uploadImage(uploadInput, "image");
-    console.log("Anonymous Functions can have multiple statements in javascript.");
-});
+    uploadInput.addEventListener('change', () => {
+        uploadImage(uploadInput, "image");
+        console.log("Anonymous Functions can have multiple statements in javascript.");
+    });
 
 
-publishBtn.addEventListener('click', () => {
-    if (articleFeild.value.length && blogTitleField.value.length) {
-        // generating id
-        let letters = 'abcdefghijklmnopqrstuvwxyz';
-        let blogTitle = blogTitleField.value.split(" ").join("-");
-        let id = '';
-        for (let i = 0; i < 4; i++) {
-            id += letters[Math.floor(Math.random() * letters.length)];
+    publishBtn.addEventListener('click', async () => {
+        if (articleFeild.value.length && blogTitleField.value.length) {
+            // generating id
+            let letters = 'abcdefghijklmnopqrstuvwxyz';
+            let blogTitle = blogTitleField.value.split(" ").join("-");
+            let id = '';
+            for (let i = 0; i < 4; i++) {
+                id += letters[Math.floor(Math.random() * letters.length)];
+            }
+
+            // setting up docName
+            let docName = `${blogTitle}-${id}`;
+
+            // Handle empty banner path
+            if (typeof bannerPath == undefined) {
+                bannerPath = null
+            }
+
+            // console.log("> Look here!");
+            //access firstore with db variable;
+            try {
+                // Add a new document in collection blogs
+                console.log(`> Banner path at the time of hitting publish: ${bannerPath}`);
+                console.log(`> Publishing time: ${new Date().toLocaleString()}`);
+                console.log("> Got here!");
+                await setDoc(doc(db, "blogs", docName), {
+                    title: blogTitleField.value,
+                    article: articleFeild.value,
+                    bannerImage: bannerPath,
+                    publishedAt: `${new Date().toLocaleString()}`,
+                    author: test.auth.currentUser.email.split("@")[0]
+                });
+
+                location.href = `/${docName}`;
+            }
+            catch (e) {
+                console.error(`Error occured whlie uploading to firebase: ${e}`)
+            }
+            console.log("Successfully pushed to firestore.")
         }
+    })
 
-        // setting up docName
-        let docName = `${blogTitle}-${id}`;
-        let date = new Date(); // for published at info
-
-        // Handle empty banner path
-        if (typeof bannerPath == undefined){
-            bannerPath=null
-        }
-
-        //access firstore with db variable;
-        try {
-            // Add a new document in collection blogs
-            console.log(`> Banner path at the time of hitting publish: ${bannerPath}`);
-            console.log(`> Publishing time: ${new Date().toLocaleString()}`);
-            setDoc(doc(db, "blogs", docName), {
-                title: blogTitleField.value,
-                article: articleFeild.value,
-                bannerImage: bannerPath,
-                publishedAt: `${new Date().toLocaleString()}`
-            });
-            
-            location.href = `/${docName}`;
-        }
-        catch (e){
-            console.error(`Error occured whlie uploading to firebase: ${e}`)
-        }
-        console.log("Successfully pushed to firestore.")
-    }
-})
 };
 
-console.log(`Color code before export: ${colorCode.black};`);
-export { colorCode, db };
+// Add author name to the blogs
+test.auth.onAuthStateChanged((user) => {
+    if (!user) {
+        location.replace("/admin");
+    }
+    else {
+
+    }
+})
+
+// console.log(`Color code before export: ${colorCode.black};`);
+export { db };
