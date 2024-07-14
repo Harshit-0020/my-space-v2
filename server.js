@@ -1,6 +1,13 @@
-const express = require('express');
-const path = require('path');
-const fileupload = require('express-fileupload')
+// const express = require('express');
+// const path = require('path');
+// const fileupload = require('express-fileupload')
+import express from 'express';
+import path from 'path';
+import fileUpload from 'express-fileupload';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT || 3000;
 
 // dirname : /home/ares/Programs/My-space-v2
@@ -10,14 +17,14 @@ console.log(initial_path)
 
 const app = express();
 app.use(express.static(initial_path))
-app.use(fileupload());
+app.use(fileUpload());
 
-app.get('/',(req, res) => {
-    res.sendFile(path.join(initial_path,"index.html"));
+app.get('/', (req, res) => {
+    res.sendFile(path.join(initial_path, "index.html"));
     console.log(initial_path)
 })
 
-app.listen(port, () =>{
+app.listen(port, () => {
     console.log('listening......');
 })
 
@@ -30,10 +37,10 @@ app.post('/upload', (req, res) => {
     let path = 'uploads/' + imagename;
 
     // create upload
-    file.mv(path, (err,result) => {
-        if (err){
+    file.mv(path, (err, result) => {
+        if (err) {
             throw err;
-        } else{
+        } else {
             // our image upload path
             res.json(`uploads/${imagename}`)
         }
