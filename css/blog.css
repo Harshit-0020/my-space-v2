@@ -25,6 +25,7 @@
 }
 
 .article *{
+    word-break: break-word;
     margin: 30px 0;
     color: #2d2d2d;
 }
@@ -42,4 +43,8 @@
     font-weight: 500;
     font-size: 40px;
     margin-top: 80px;
+}
+#edit-blog-btn{
+    display: none;
+    background: rgba(0, 0, 0, 0.2);
 }

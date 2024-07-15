@@ -1,4 +1,4 @@
-import { db } from "./editor.js";
+import { test } from "./firebase.js";
 import {
   doc,
   getDoc,
@@ -6,6 +6,8 @@ import {
 
 let blogId = decodeURI(location.pathname.split("/").pop());
 
+const db = test.db;
+const authApp = test.auth;
 
 console.log(`> Fetching blog -> ${blogId}`);
 const docRef = doc(db, "blogs", blogId);
@@ -73,6 +75,12 @@ const setupBlog = (data) => {
   titleTag.innerHTML += blogTitle.innerHTML = data.title;
   publish.innerHTML += data.publishedAt;
   publish.innerHTML += `<br> <strong>Written by - </strong> ${data.author}`;
+
+  if (data.author == authApp.currentUser.email.split("@")[0]){
+    let editBtn = document.querySelector("#edit-blog-btn");
+    editBtn.style.display = "inline";
+    editBtn.href = `${blogId}/editor`
+  }
 
   const article = document.querySelector(".article");
   addArticle(article, data.article);

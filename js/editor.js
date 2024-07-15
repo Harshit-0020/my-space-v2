@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
+import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 import { test } from "./firebase.js";
 
 const blogTitleField = document.querySelector(".title");
@@ -137,15 +137,29 @@ if (bannerImage != null) {
     publishBtn.addEventListener('click', async () => {
         if (articleFeild.value.length && blogTitleField.value.length) {
             // generating id
-            let letters = 'abcdefghijklmnopqrstuvwxyz';
-            let blogTitle = blogTitleField.value.split(" ").join("-");
-            let id = '';
-            for (let i = 0; i < 4; i++) {
-                id += letters[Math.floor(Math.random() * letters.length)];
+            let docName;
+
+            let currentURL = location.pathname.split("/");
+            console.log(`> MONITOR THIS => ${currentURL}`);
+            if (currentURL[1] != "editor.html") {
+                //existing blog
+                docName = decodeURIComponent(currentURL[1]);
+                console.log(docName)
+            } else {
+
+                let letters = 'abcdefghijklmnopqrstuvwxyz';
+                let blogTitle = blogTitleField.value.split(" ").join("-");
+                let id = '';
+                for (let i = 0; i < 4; i++) {
+                    id += letters[Math.floor(Math.random() * letters.length)];
+                }
+
+                // setting up docName
+                docName = `${blogTitle}-${id}`;
             }
 
-            // setting up docName
-            let docName = `${blogTitle}-${id}`;
+
+
 
             // Handle empty banner path
             if (typeof bannerPath == undefined) {
@@ -187,6 +201,32 @@ test.auth.onAuthStateChanged((user) => {
 
     }
 })
+
+// Re-populate the blog, in-case someone comes here from the edit-blog-btn
+let currentPageURL = location.pathname.split("/");
+
+if (currentPageURL[1] != 'editor.html') {
+    const blogId = currentPageURL[1];
+
+    const docRef = doc(db, "blogs", blogId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        let data = docSnap.data();
+        bannerPath = data.bannerImage;
+        banner.style.backgroundImage = `url(${bannerPath})`;
+        blogTitleField.value = data.title;
+        articleFeild.value = data.article;
+    }
+    else {
+        console.log("> Error fetching the blog.")
+        location.replace("/");
+    }
+
+}
+
+console.log(currentPageURL);
+// console.log(location.pathname);
 
 // console.log(`Color code before export: ${colorCode.black};`);
 export { db };

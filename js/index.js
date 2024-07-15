@@ -10,7 +10,6 @@ const blogSection = document.querySelector(".blogs-section");
 
 // Iterate over all blogs in the collection and create cards for them
 querySnapshot.forEach((doc) => {
-  console.log("> This is also called unnecessarily.")
   // doc.data() is never undefined for query doc snapshots
   console.log(doc.id, " => ", doc.data());
   if (doc.id != decodeURI(location.pathname.split("/").pop())){

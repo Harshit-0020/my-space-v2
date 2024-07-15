@@ -54,8 +54,13 @@ app.get("/admin", (req, res) => {
     res.sendFile((path.join(initial_path, "dashboard.html")));
 })
 
-app.get("/test",(req,res)=>{
-    res.sendFile((path.join(initial_path,"test.html")))
+app.get("/test", (req, res) => {
+    res.sendFile((path.join(initial_path, "test.html")));
+})
+
+app.get("/:canBeAnything/editor", (req, res) => {
+    console.log(initial_path);
+    res.sendFile((path.join(initial_path,"editor.html")));
 })
 
 app.get("/:canBeAnything", (req, res) => {      // GET call Triggers on redirecting to any webpage.
