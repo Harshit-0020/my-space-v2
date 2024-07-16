@@ -40,8 +40,8 @@ jobs:
         run: npm ci
       
       # Build the project
-      - name: Build
-        run: npm run build
+      # - name: Build
+        # run: npm run build
   
       # Install surge
       - name: Install surge
