@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main # Set a branch to deploy
+      - enable-deployment-via-github-actions
 
 jobs:
   begin_deployment_on_surge:
