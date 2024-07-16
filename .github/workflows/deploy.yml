@@ -1,0 +1,51 @@
+# Awesome the code works now, as of commit cb08b08
+name: Deploy to surge v2
+on:
+  push:
+    branches:
+      - main # Set a branch to deploy
+
+jobs:
+  begin_deployment_on_surge:
+    name: Start Deployment on Surge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Setup nodejs
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 14.x
+      - name: Cache Node Modules
+        id: cache-nodemodules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # caching node_modules
+          path: node_modules
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+          
+
+          
+      # Install dependencies
+      - name: Install dependencies
+        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
+        run: npm ci
+      
+      # Build the project
+      - name: Build
+        run: npm build
+  
+      # Install surge
+      - name: Install surge
+        run: npm install --global surge
+      
+      # Deploy to surge
+      - name: Deploy to surge
+        run: surge ./ divide.surge.sh --token ${{secrets.SURGE_TOKEN}}
