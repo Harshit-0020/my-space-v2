@@ -41,7 +41,7 @@ jobs:
       
       # Build the project
       - name: Build
-        run: npm build
+        run: npm run build
   
       # Install surge
       - name: Install surge
