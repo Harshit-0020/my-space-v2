@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 // dirname : /home/ares/Programs/My-space-v2
 let initial_path = path.join(__dirname)
 
-// console.log(initial_path)
+console.log(initial_path)
 
 const app = express();
 app.use(express.static(initial_path))
