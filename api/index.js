@@ -3,9 +3,8 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 export default (req, res) => {
-    // const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    // const initial_path = __dirname;
-    const filePath = "../static/index.html";
+    const initial_path = process.cwd();
+    const filePath = path.join(initial_path, "static","index.html");
 
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
