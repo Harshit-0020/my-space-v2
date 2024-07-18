@@ -24,7 +24,7 @@ export default (req, res) => {
     
     const initial_path = process.cwd();
 
-    let uploadDir = path.join(initial_path + "uploads");
+    let uploadDir = path.join(initial_path, "uploads");
 
     form.uploadDir = uploadDir;
     form.keepExtensions = true;
