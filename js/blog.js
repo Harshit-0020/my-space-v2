@@ -18,8 +18,14 @@ const addArticle = (ele, data) => {
   console.log(data.length);
   console.log(data);
 
+
+
   data.forEach((item) => {
     // check for heading
+
+    // Replace bold and italiced text with corr tags
+    // item = item.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>').replace(/^- (.*)$/gm, '<li>$1</li>').replace(/^(?!<li>)[^\n]+$/gm, '<p>$&</p>').replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+
     if (item[0] == "#") {
       let hCount = 0;
       let i = 0;
@@ -49,13 +55,14 @@ const addArticle = (ele, data) => {
       let alt = item.slice(2, separator);
       let src = item.slice(separator + 2, item.length - 1);
       src = encodeURI(src);
-      
+
       ele.innerHTML += `<img src="${src}" alt="${alt}" class="article-image">`;
       console.log(src);
     } else {
-      ele.innerHTML += `<p>${item}</p>`;
+      ele.innerHTML += `<p>${item.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g,"<i>$1</i>").replace(/^- (.*)$/gm, '<li>$1</li>').replace(/^(?!<li>)[^\n]+$/gm, '<p>$&</p>').replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>')}</p>`;
     }
-  });
+  }
+  );
 };
 
 
@@ -76,7 +83,7 @@ const setupBlog = (data) => {
   publish.innerHTML += data.publishedAt;
   publish.innerHTML += `<br> <strong>Written by - </strong> ${data.author}`;
 
-  if (data.author == authApp.currentUser.email.split("@")[0]){
+  if (data.author == authApp.currentUser.email.split("@")[0]) {
     let editBtn = document.querySelector("#edit-blog-btn");
     editBtn.style.display = "inline";
     editBtn.href = `${blogId}/editor`
@@ -86,9 +93,11 @@ const setupBlog = (data) => {
   addArticle(article, data.article);
 };
 
+
 if (docSnap.exists()) {
   setupBlog(docSnap.data());
 } else {
+  console.log("THIS WAS TRIGEERED")
   console.log("No Such blog exists!");
   location.replace("/");
 }

@@ -1,15 +1,25 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "server.js",
-            "use": "@now/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "server.js"
-        }
-    ]
+  "version": 2,
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/api/index"
+    },
+    {
+      "src": "/admin",
+      "dest": "/api/admin"
+    },
+    {
+      "src": "/(.*)/editor",
+      "dest": "/api/redirect_editor"
+    },
+    {
+      "src": "/upload",
+      "dest": "/api/upload.js"
+    },
+    {
+      "src": "/blog/(.*)",
+      "dest": "/api/blog.js"
+    }
+  ]
 }

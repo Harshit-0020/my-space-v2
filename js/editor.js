@@ -47,27 +47,77 @@ const uploadImage = (uploadFile, uploadType) => {
         const formdata = new FormData();
         formdata.append('image', file);
 
-        // Make a POST http request and
-        // Body is the thing client sends to the server : send file (previously stored in formdata) inside the body
         fetch('/upload', {
             method: 'POST',
             body: formdata
-        }).then(res => res.json()) //here the then method is calling an anonymous arrow function with res as a parameter here the return statement is also implied automatically : no need for return res.json()
-            .then(data => {
-                console.log(`Upload type for the image was: ${uploadType}`);
-                if (uploadType == "image") {
-                    addImage(data, file.name);
-                } else {
-                    // Handle upload image for banner
-                    console.log("> Uploaded banner image on server.");
-                    console.log(`> Current location.origin: ${location.origin}`);
-                    console.log(`> Json response from the server (image upload location): ${data}`);
-                    console.log(`> IMAGE DATA from server: ${data}`);
-                    bannerPath = `${location.origin}/${encodeURIComponent(data)}`;
-                    console.log(`Banner image URL: ${bannerPath}`);
-                    banner.style.backgroundImage = `url("${bannerPath}")`;
-                }
-            })
+        }).then(res => {
+            console.log("> Response returned after upload.");
+            return res.json();
+        }).then(data => {
+            console.log(`Upload type for the image was: ${uploadType}`);
+            if (uploadType === "image") {
+                addImage(data, file.name);
+            } else {
+                console.log("> Uploaded banner image on server.");
+                console.log(`> Current location.origin: ${location.origin}`);
+                console.log(`> Json response from the server (image upload location): ${data}`);
+                console.log(`> IMAGE DATA from server: ${data}`);
+
+                // Construct the banner path
+                bannerPath = encodeURI(`${location.origin}/${data}`.trim());
+                console.log(`Banner image URL (from variable): '${bannerPath}'`);
+
+                const checkImageExists = (url, callback) => {
+                    fetch(url)
+                        .then(response => {
+                            if (response.ok) {
+                                callback(true);
+                            } else {
+                                callback(false);
+                            }
+                        })
+                        .catch(() => {
+                            callback(false);
+                        });
+                };
+
+                const retryFetch = (url, retries, delay, onSuccess, onFailure) => {
+                    let attempts = 0;
+
+                    const executeFetch = () => {
+                        checkImageExists(url, exists => {
+                            if (exists) {
+                                onSuccess();
+                            } else if (attempts < retries) {
+                                attempts++;
+                                setTimeout(executeFetch, delay);
+                            } else {
+                                onFailure();
+                            }
+                        });
+                    };
+
+                    executeFetch();
+                };
+
+                retryFetch(
+                    bannerPath,
+                    5,      // Number of retries
+                    2000,   // Delay between retries (in milliseconds)
+                    () => {
+                        console.log("Image exists and is accessible.");
+                        banner.style.backgroundImage = `url('${bannerPath}')`;
+                    },
+                    () => {
+                        console.error("Image could not be fetched after multiple attempts.");
+                    }
+                );
+            }
+        }).catch(error => {
+            console.error("Error during fetch:", error);
+        });
+
+
     } else {
         alert("upload Image only");
     }
@@ -181,7 +231,7 @@ if (bannerImage != null) {
                     author: test.auth.currentUser.email.split("@")[0]
                 });
 
-                location.href = `/${docName}`;
+                location.href = `/blog/${docName}`;
             }
             catch (e) {
                 console.error(`Error occured whlie uploading to firebase: ${e}`)
@@ -205,7 +255,7 @@ test.auth.onAuthStateChanged((user) => {
 // Re-populate the blog, in-case someone comes here from the edit-blog-btn
 let currentPageURL = location.pathname.split("/");
 
-if (currentPageURL[1] != 'editor.html') {
+if (currentPageURL[2] != 'editor.html') {
     const blogId = currentPageURL[1];
 
     const docRef = doc(db, "blogs", blogId);
