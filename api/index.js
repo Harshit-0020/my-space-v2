@@ -10,7 +10,7 @@ export default (req, res) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             console.error(err);
-            res.status(500).end('Error reading index.html');
+            res.status(500).send('Error reading index.html: ' + filePath);
             return;
         }
         res.setHeader('Content-Type', 'text/html');

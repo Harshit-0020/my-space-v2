@@ -16,7 +16,7 @@
     "firebaseui": "^6.1.0",
     "formidable": "^3.5.1",
     "nodemon": "^3.1.4",
-    "vercel": "^35.0.0"
+    "vercel": "^35.0.3"
   },
   "type": "module"
 }
