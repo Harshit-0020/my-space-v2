@@ -45,7 +45,8 @@ export default (req, res) => {
                 const sanitizedFileName = origFileName.replace(/[^a-zA-Z0-9.-]/g, '_');
                 const imageName = `${date.getDate()}${date.getTime()}${sanitizedFileName}`;
                 // const imageName = file.originalFilename;
-                const newFilepath = `${uploadDir}${imageName}`;
+                const newFilepath = path.join(uploadDir, imageName);
+                // const newFilepath = `${uploadDir}${imageName}`;
 
                 console.log("> Original file path ->" + file.filepath);
                 console.log("> New File Path: " + newFilepath)
