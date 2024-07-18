@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import path from 'path';
 import { IncomingForm } from 'formidable';
 
 const renameFile = async (originalFilename, newFilename) => {
