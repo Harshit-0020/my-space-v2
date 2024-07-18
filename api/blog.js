@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 
 export default (req, res) => {
-    const __dirname = path.dirname(fileURLToPath(import.meta.url));
-    const initial_path = __dirname;
-    const filePath = path.join(initial_path, "..", "static", "blog.html");
+
+    const initial_path = process.cwd();
+    const filePath = path.join(initial_path, "static","blog.html");
 
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {

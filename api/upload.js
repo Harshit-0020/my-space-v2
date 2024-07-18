@@ -20,7 +20,10 @@ const saveAndRename = async (originalFilename, newFilename) => {
 export default (req, res) => {
     const form = new IncomingForm();
     let date = new Date();
-    let uploadDir = "uploads/";
+    
+    initial_path = process.cwd()
+
+    let uploadDir = path.join(initial_path + "uploads");
 
     form.uploadDir = uploadDir;
     form.keepExtensions = true;
