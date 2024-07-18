@@ -4,7 +4,7 @@ import path from 'path';
 
 export default (req, res) => {
     const initial_path = location.origin;
-    const filePath = path.join(initial_path, "..", "static", "index.html");
+    const filePath = path.join(initial_path, "static", "index.html");
     console.log(__dirname)
 
     fs.readFile(filePath, 'utf8', (err, data) => {
