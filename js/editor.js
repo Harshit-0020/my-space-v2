@@ -163,9 +163,9 @@ const uploadImage = (uploadFile, uploadType) => {
 // Handle upload image button for blog body
 const addImage = (imagepath, alt) => {
     // add image text at current position of cursor inside write blog area.
-    let imagepathWithOrigin = String.raw `${imagepath}`;
+    let imagepathWithOrigin = `${imagepath}`;
     let curPos = articleFeild.selectionStart;
-    let textToInsert = String.raw `\r![${alt}](${imagepathWithOrigin})\r`;
+    let textToInsert = `\r![${alt}](${imagepathWithOrigin})\r`;
     articleFeild.value = articleFeild.value.slice(0, curPos) + textToInsert + articleFeild.value.slice(curPos);
 }
 
