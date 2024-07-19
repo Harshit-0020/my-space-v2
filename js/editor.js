@@ -86,7 +86,7 @@ const uploadImage = (uploadFile, uploadType) => {
             // console.log("> Image download complete.")
 
             const imageCID = data.uploadCID;
-            const imageURL = path.join("https://ipfs.filebase.io/ipfs", imageCID);
+            const imageURL = path.join(String.raw `https://ipfs.filebase.io/ipfs`, imageCID);
             console.log("IMAGE URL =====> " + imageURL);
 
             // GOT THE FILE
@@ -163,9 +163,9 @@ const uploadImage = (uploadFile, uploadType) => {
 // Handle upload image button for blog body
 const addImage = (imagepath, alt) => {
     // add image text at current position of cursor inside write blog area.
-    let imagepathWithOrigin = `${imagepath}`;
+    let imagepathWithOrigin = String.raw `${imagepath}`;
     let curPos = articleFeild.selectionStart;
-    let textToInsert = `\r![${alt}](${imagepathWithOrigin})\r`;
+    let textToInsert = String.raw `\r![${alt}](${imagepathWithOrigin})\r`;
     articleFeild.value = articleFeild.value.slice(0, curPos) + textToInsert + articleFeild.value.slice(curPos);
 }
 
