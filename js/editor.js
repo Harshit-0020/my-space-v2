@@ -86,7 +86,7 @@ const uploadImage = (uploadFile, uploadType) => {
             // console.log("> Image download complete.")
 
             const imageCID = data.uploadCID;
-            const imageURL = path.join(String.raw `https://ipfs.filebase.io/ipfs`, imageCID);
+            const imageURL = `https://ipfs.filebase.io/ipfs/${imageCID}`;
             console.log("IMAGE URL =====> " + imageURL);
 
             // GOT THE FILE
