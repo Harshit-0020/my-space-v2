@@ -1,6 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
 import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 import { test } from "./firebase.js";
+import path from 'https://cdn.jsdelivr.net/npm/path@0.12.7/+esm';
+// import { response } from "express";
+// import filebase from 'https://cdn.jsdelivr.net/npm/filebase@0.0.1/+esm'
+
+
 
 const blogTitleField = document.querySelector(".title");
 const articleFeild = document.querySelector('.article');
@@ -50,21 +55,53 @@ const uploadImage = (uploadFile, uploadType) => {
         fetch('/upload', {
             method: 'POST',
             body: formdata
-        }).then(res => {
+        }).then(response => {
             console.log("> Response returned after upload.");
-            return res.json();
-        }).then(data => {
+            const jsonResponse = response.json()
+            console.log(jsonResponse);
+            return jsonResponse;
+        }).then(async data => {
+            // Download the image from filebase
+
+            // // FILEBASE BUCKET HANDLING
+            // const S3_KEY = 'C34D3AC6D8855FB8EF7D';
+            // const S3_SECRET = 'uKSY1LD4gTMS4D4fmJaXrdW1AQsyuTjHXZP7JUJY';
+            // const bucketManager = new BucketManager(S3_KEY, S3_SECRET);
+            // const bucketName = `test-bucket-4852367`;
+
+            // try {
+            //     await bucketManager.create(bucketName);
+            // } catch (error) {
+            //     console.error("Error creating bucket:", error);
+            //     res.status(500).send('Error creating bucket.');
+            //     return;
+            // }
+
+            // const objectManager = new ObjectManager(S3_KEY, S3_SECRET, {
+            //     bucket: bucketName,
+            // });
+
+            // console.log("> Downloading file from filebase...");
+            // const downloadedImage = await objectManager.download(imageName);
+            // console.log("> Image download complete.")
+
+            const imageCID = data.uploadCID;
+            const imageURL = path.join("https://ipfs.filebase.io/ipfs", imageCID);
+            console.log("IMAGE URL =====> " + imageURL);
+
+            // GOT THE FILE
             console.log(`Upload type for the image was: ${uploadType}`);
             if (uploadType === "image") {
-                addImage(data, file.name);
+                addImage(imageURL, file.name);
             } else {
-                console.log("> Uploaded banner image on server.");
-                console.log(`> Current location.origin: ${location.origin}`);
-                console.log(`> Json response from the server (image upload location): ${data}`);
-                console.log(`> IMAGE DATA from server: ${data}`);
+                console.log("> Uploaded banner image on filebase.");
+                // console.log(`> Current location.origin: ${location.origin}`);
+                console.log(`> Json response from the server (image upload location): ${imageURL}`);
+                // console.log(`> IMAGE DATA from server: ${imageURL}`);
 
                 // Construct the banner path
-                bannerPath = encodeURI(`${location.origin}/${data}`.trim());
+                // bannerPath = encodeURI(`${location.origin}/${data}`.trim());
+                bannerPath = imageURL;
                 console.log(`Banner image URL (from variable): '${bannerPath}'`);
 
                 const checkImageExists = (url, callback) => {
@@ -126,7 +163,7 @@ const uploadImage = (uploadFile, uploadType) => {
 // Handle upload image button for blog body
 const addImage = (imagepath, alt) => {
     // add image text at current position of cursor inside write blog area.
-    let imagepathWithOrigin = `${location.origin}/${imagepath}`;
+    let imagepathWithOrigin = `${imagepath}`;
     let curPos = articleFeild.selectionStart;
     let textToInsert = `\r![${alt}](${imagepathWithOrigin})\r`;
     articleFeild.value = articleFeild.value.slice(0, curPos) + textToInsert + articleFeild.value.slice(curPos);

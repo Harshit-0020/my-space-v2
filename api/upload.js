@@ -1,67 +1,72 @@
 import * as fs from 'fs';
 import path from 'path';
 import { IncomingForm } from 'formidable';
+import {
+    BucketManager,
+    ObjectManager,
+} from '@filebase/sdk';
 
-const renameFile = async (originalFilename, newFilename) => {
-    fs.rename(originalFilename, newFilename, (err) => {
-        if (err) {
-            console.error("Error renaming file:", err);
-            // res.status(500).send('Error renaming the file.');
-            return 1;
-        }
-        else return 0;
-    });
-
-}
-
-const saveAndRename = async (originalFilename, newFilename) => {
-    return await renameFile(originalFilename, newFilename);
-}
-
-export default (req, res) => {
+export default async (req, res) => {
     const form = new IncomingForm();
-    let date = new Date();
-    
+    const date = new Date();
     const initial_path = process.cwd();
 
-    let uploadDir = path.join(initial_path, "uploads");
+    // FILEBASE BUCKET HANDLING
+    const S3_KEY = 'C34D3AC6D8855FB8EF7D';
+    const S3_SECRET = 'uKSY1LD4gTMS4D4fmJaXrdW1AQsyuTjHXZP7JUJY';
+    const bucketManager = new BucketManager(S3_KEY, S3_SECRET);
+    const bucketName = `test-bucket-4852367`;
 
-    form.uploadDir = uploadDir;
+    try {
+        await bucketManager.create(bucketName);
+    } catch (error) {
+        console.error("Error creating bucket:", error);
+        res.status(500).send('Error creating bucket.');
+        return;
+    }
+
+    const objectManager = new ObjectManager(S3_KEY, S3_SECRET, {
+        bucket: bucketName,
+    });
+
     form.keepExtensions = true;
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(req, async (err, fields, files) => {
         if (err) {
             console.error("Error parsing the files:", err);
             res.status(500).send('Error parsing the files.');
             return;
-        } else if (!files.image) {
+        }
+
+        if (!files.image) {
             console.error("No file uploaded.");
             res.status(400).send('No file uploaded.');
             return;
-        } else {
-            const results = [];
-            files.image.forEach((file) => {
-                const origFileName = file.originalFilename;
-                const sanitizedFileName = origFileName.replace(/[^a-zA-Z0-9.-]/g, '_');
-                const imageName = `${date.getDate()}${date.getTime()}${sanitizedFileName}`;
-                // const imageName = file.originalFilename;
-                const newFilepath = path.join(uploadDir, imageName);
-                // const newFilepath = `${uploadDir}${imageName}`;
+        }
 
-                console.log("> Original file path ->" + file.filepath);
-                console.log("> New File Path: " + newFilepath)
+        const file = files.image[0]; // Assuming a single file upload
+        const origFileName = file.originalFilename;
+        const sanitizedFileName = origFileName.replace(/[^a-zA-Z0-9.-]/g, '_');
+        const imageName = `${date.getDate()}${date.getTime()}${sanitizedFileName}`;
 
-                const stat = saveAndRename(file.filepath, newFilepath);
-                results.push(newFilepath);
-                results.push(stat);
+        try {
+            const fileStream = fs.createReadStream(file.filepath);
+            console.log("Uploading file to Filebase:", imageName);
+
+            const uploadedObject = await objectManager.upload(imageName, fileStream);
+            const uploadCID = uploadedObject.cid;
+            console.log("File uploaded to Filebase:", uploadedObject);
+
+            res.status(200).json({uploadCID});
+        } catch (uploadError) {
+            console.error("Error uploading file:", uploadError);
+            res.status(500).send('Error uploading file.');
+        } finally {
+            fs.unlink(file.filepath, (unlinkError) => {
+                if (unlinkError) {
+                    console.error("Error deleting temporary file:", unlinkError);
+                }
             });
-            console.log(`> File written: ${results[0]}`);
-            const upload_status = results[1];
-            if (upload_status == 1) {
-                res.status(500).send('Error renaming the file.');
-            } else {
-                res.status(200).json(results[0]);
-            }
         }
     });
 };
