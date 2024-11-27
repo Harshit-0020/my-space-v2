@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
+
+
+body {
+	background-color: #1c2424;
+}
+
+.kosugi-maru-regular {
+  font-family: "Kosugi Maru";
+  font-weight: 400;
+  font-style: normal;
+}
+
+
+.sample-heading {
+	text-align: center;
+	color: #d1a055;
+}
