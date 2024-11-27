@@ -6,13 +6,182 @@ body {
 }
 
 .kosugi-maru-regular {
-  font-family: "Kosugi Maru";
-  font-weight: 400;
-  font-style: normal;
+	font-family: "Kosugi Maru";
+	font-weight: 400;
+	font-style: normal;
 }
 
 
-.sample-heading {
-	text-align: center;
+
+/*BLOCK TO ADD HEADING ANIMATION */
+.welcome-heading-container {
+	font-family: "Kosugi Maru";
+	font-weight: 800;
+	font-style: normal;
 	color: #d1a055;
+	white-space: nowrap;
+	margin: 0;
+	display: flex;
+	justify-content: center;
+	/* Horizontal centering */
 }
+
+#welcome-heading {
+	display: inline-block;
+	/* Retain inline-block to allow size based on content */
+	border-right: 2px solid #c07a8e;
+	/* cursor effect */
+	padding-right: 5px;
+	animation: blink 5s step-end infinite;
+	/* cursor blinking*/
+	font-size: 4em;
+}
+
+
+
+@keyframes blink {
+	50% {}
+}
+
+/* HEADING ANIMATION COMPLETE */
+/* ADDING CARDS TO THE PAGE */
+.card-container {
+	width: 1142px;
+	margin: 0 auto;
+}
+
+.card-box {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: start;
+	-ms-flex-align: start;
+	align-items: flex-start;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+
+	padding: 50px 0;
+}
+
+.card-item {
+	-ms-flex-preferred-size: calc(33.33333% - 30px);
+	flex-basis: calc(33.33333% - 30px);
+
+	margin: 0 15px 30px;
+
+	overflow: hidden;
+
+	border-radius: 28px;
+}
+
+.card-item-link {
+	display: block;
+	padding: 30px 20px;
+	background-color: #121212;
+
+	overflow: hidden;
+
+	position: relative;
+	text-decoration: none;
+}
+
+.ag-courses-item_link:hover {
+	text-decoration: none;
+	color: #FFF;
+}
+
+.card-item-link:hover .card-item-bg {
+	-webkit-transform: scale(10);
+	-ms-transform: scale(10);
+	transform: scale(10);
+}
+
+.card-item-title {
+	min-height: 87px;
+	margin: 0 0 25px;
+
+	overflow: hidden;
+
+	font-weight: bold;
+	font-size: 30px;
+	color: #FFF;
+
+	z-index: 2;
+	position: relative;
+}
+
+.card-item-bg {
+	height: 128px;
+	width: 128px;
+	background-color: #f9b234;
+
+	z-index: 1;
+	position: absolute;
+	top: -75px;
+	right: -75px;
+
+	border-radius: 50%;
+
+	-webkit-transition: all .5s ease;
+	-o-transition: all .5s ease;
+	transition: all .5s ease;
+}
+
+.card-item:nth-child(2n) .card-item-bg {
+	background-color: #3ecd5e;
+}
+
+.card-item:nth-child(3n) .card-item-bg {
+	background-color: #e44002;
+}
+
+.card-item:nth-child(4n) .card-item-bg {
+	background-color: #952aff;
+}
+
+.card-item:nth-child(5n) .card-item-bg {
+	background-color: #cd3e94;
+}
+
+.card-item:nth-child(6n) .card-item-bg {
+	background-color: #4c49ea;
+}
+
+
+@media only screen and (max-width: 979px) {
+	.card-item {
+		-ms-flex-preferred-size: calc(50% - 30px);
+		flex-basis: calc(50% - 30px);
+	}
+
+	.card-item-title {
+		font-size: 24px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+	.card-container {
+		width: 96%;
+	}
+
+}
+
+@media only screen and (max-width: 639px) {
+	.card-item {
+		-ms-flex-preferred-size: 100%;
+		flex-basis: 100%;
+	}
+
+	.card-item-title {
+		min-height: 72px;
+		line-height: 1;
+
+		font-size: 24px;
+	}
+
+	.card-item-link {
+		padding: 22px 40px;
+	}
+}
+
+/* CARD CSS COMPLETE */
