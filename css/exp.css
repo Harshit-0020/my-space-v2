@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
 
+@import url("colorschemes/gruvbox-dark.css");
 
 body {
-	background-color: #1c2424;
+	background-color: var(--bg_h);
 }
 
 .kosugi-maru-regular {
@@ -18,7 +19,7 @@ body {
 	font-family: "Kosugi Maru";
 	font-weight: 800;
 	font-style: normal;
-	color: #d1a055;
+	color: var(--yellow-dim);
 	white-space: nowrap;
 	margin: 0;
 	display: flex;
@@ -77,7 +78,7 @@ body {
 .card-item-link {
 	display: block;
 	padding: 30px 20px;
-	background-color: #121212;
+	background-color: var(--bg_s);
 
 	overflow: hidden;
 
@@ -87,7 +88,7 @@ body {
 
 .ag-courses-item_link:hover {
 	text-decoration: none;
-	color: #FFF;
+	color: var(--fg);
 }
 
 .card-item-link:hover .card-item-bg {
@@ -104,7 +105,7 @@ body {
 
 	font-weight: bold;
 	font-size: 30px;
-	color: #FFF;
+	color: var(--fg);
 
 	z-index: 2;
 	position: relative;
