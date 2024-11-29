@@ -12,6 +12,13 @@ body {
 	font-style: normal;
 }
 
+/*GOD CONTAINER*/
+.god-container {
+	display: flex;
+	height: 100vh;
+	flex-direction: column;
+}
+/*GOD CONTAINER COMPLETE*/
 
 
 /*BLOCK TO ADD HEADING ANIMATION */
@@ -25,6 +32,7 @@ body {
 	display: flex;
 	justify-content: center;
 	/* Horizontal centering */
+	flex: 1;
 }
 
 #welcome-heading {
@@ -45,10 +53,63 @@ body {
 }
 
 /* HEADING ANIMATION COMPLETE */
+
+/* LEFT AND RIGHT DIVIDER */
+
+
+
+/* LEFT AND RIGHT DIVIDER COMPLETE */
+.body-container {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	flex: 9;
+}
+
+.small-container {
+	display: flex;
+	flex-direction: row;
+	padding: 20px;
+	gap: 20px;
+	flex: 9;
+}
+
+.left-body {
+	color: var(--purple-dim);
+	flex: 1;
+	border-radius: 28px;
+	padding: 20px;
+	overflow: hidden;
+	font-family: "Kosugi Maru";
+	font-weight: 400;
+	font-style: normal;
+	font-size: 4rem;
+}
+
+.right-body {
+	/* background-color: var(--bg_s); */
+	flex: 1;
+	border-radius: 28px;
+	padding: 20px;
+	overflow: hidden;
+}
+
+.right-body img {
+    width: 100%; /* or any custom size */
+    height: 100%; 
+    object-fit: cover;
+    border-radius: 28px;
+}
+
 /* ADDING CARDS TO THE PAGE */
 .card-container {
-	width: 1142px;
+	display: flex;
+	width: -moz-available;
 	margin: 0 auto;
+	flex: 1;
+	flex-direction: column;
+	/*! min-height: 0; */
+	/*! height: -moz-available; */
 }
 
 .card-box {
@@ -59,9 +120,9 @@ body {
 	-ms-flex-align: start;
 	align-items: flex-start;
 	-ms-flex-wrap: wrap;
-	flex-wrap: wrap;
+	/*! flex-wrap: wrap; */
 
-	padding: 50px 0;
+	/*! padding: 50px 0; */
 }
 
 .card-item {
@@ -73,6 +134,11 @@ body {
 	overflow: hidden;
 
 	border-radius: 28px;
+	font-family: "Kosugi Maru";
+	font-weight: 400;
+	font-style: normal;
+	border: 2px solid var(--blue-dim);
+
 }
 
 .card-item-link {
@@ -86,7 +152,7 @@ body {
 	text-decoration: none;
 }
 
-.ag-courses-item_link:hover {
+.card-item_link:hover {
 	text-decoration: none;
 	color: var(--fg);
 }
@@ -98,8 +164,9 @@ body {
 }
 
 .card-item-title {
-	min-height: 87px;
-	margin: 0 0 25px;
+	min-height: fit-content;
+	min-width: fit-content;
+	margin: 0 0 0;
 
 	overflow: hidden;
 
@@ -109,12 +176,17 @@ body {
 
 	z-index: 2;
 	position: relative;
+
+	text-align: center;
+	align-content: center;
+
+
 }
 
 .card-item-bg {
 	height: 128px;
 	width: 128px;
-	background-color: #f9b234;
+	background-color: var(--blue-dim);
 
 	z-index: 1;
 	position: absolute;
@@ -127,25 +199,43 @@ body {
 	-o-transition: all .5s ease;
 	transition: all .5s ease;
 }
-
+.card-item:nth-child(2n){
+	border: 2px solid var(--green-dim);
+}
 .card-item:nth-child(2n) .card-item-bg {
-	background-color: #3ecd5e;
+	background-color: var(--green-dim);
 }
 
+
+.card-item:nth-child(3n){
+	border: 2px solid var(--aqua-dim);
+}
 .card-item:nth-child(3n) .card-item-bg {
-	background-color: #e44002;
+	background-color: var(--aqua-dim);
 }
 
+
+.card-item:nth-child(4n){
+	border: 2px solid var(--purple-dim);
+}
 .card-item:nth-child(4n) .card-item-bg {
-	background-color: #952aff;
+	background-color: var(--purple-dim);
 }
 
+
+.card-item:nth-child(5n){
+	border: 2px solid var(--red-dim);
+}
 .card-item:nth-child(5n) .card-item-bg {
-	background-color: #cd3e94;
+	background-color: var(--red-dim);
 }
 
+
+.card-item:nth-child(6n){
+	border: 2px solid var(--yellow-dim);
+}
 .card-item:nth-child(6n) .card-item-bg {
-	background-color: #4c49ea;
+	background-color: var(---yellow-dim);
 }
 
 
