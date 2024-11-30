@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
 
-@import url("colorschemes/gruvbox-dark.css");
+@import url("gruvbox-dark.css");
 
 body {
 	background-color: var(--bg_h);
@@ -18,8 +18,70 @@ body {
 	height: 100vh;
 	flex-direction: column;
 }
+
 /*GOD CONTAINER COMPLETE*/
 
+/*TOP CONTAINER*/
+.top-container {
+	display: flex;
+	flex-direction: row;
+}
+
+/*TOP CONTAINER COMPLETE*/
+
+/*THEME CONTAINER*/
+.theme-container {
+	display: flex;
+}
+
+#theme-toggle {
+	background: 0;
+	border: 0;
+	box-sizing: border-box;
+	cursor: pointer;
+	width: 30px;
+	height: 16px;
+	position: relative;
+	border: 1px solid rgba(255, 255, 255, 0);
+
+	/* Fixed position for this demo
+	position: fixed;
+	top: 16px;
+	right: 16px;
+	*/
+}
+
+#theme-toggle:focus {
+	outline: none;
+	/* Not ideal for accessibility */
+}
+
+#theme-toggle span:nth-child(1) {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 30px;
+	height: 16px;
+	background-color: #d6d7db;
+	border-radius: 9px;
+	box-shadow: inset 1px 1px 3px 0 rgb(0 0 0 / 40%);
+	transition: .3s;
+}
+
+#theme-toggle span:nth-child(2) {
+	position: absolute;
+	top: 3px;
+	/* left: 3px; */
+	width: 10px;
+	height: 10px;
+	background-color: #fff;
+	border-radius: 50%;
+	box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 40%);
+	transition: .3s;
+}
+
+
+/*THEME CONTAINER COMPLETE*/
 
 /*BLOCK TO ADD HEADING ANIMATION */
 .welcome-heading-container {
@@ -54,6 +116,7 @@ body {
 
 /* HEADING ANIMATION COMPLETE */
 
+/*BODY CONTAINER*/
 /* LEFT AND RIGHT DIVIDER */
 
 
@@ -95,10 +158,11 @@ body {
 }
 
 .right-body img {
-    width: 100%; /* or any custom size */
-    height: 100%; 
-    object-fit: cover;
-    border-radius: 28px;
+	width: 100%;
+	/* or any custom size */
+	height: 100%;
+	object-fit: cover;
+	border-radius: 28px;
 }
 
 /* ADDING CARDS TO THE PAGE */
@@ -199,41 +263,47 @@ body {
 	-o-transition: all .5s ease;
 	transition: all .5s ease;
 }
-.card-item:nth-child(2n){
+
+.card-item:nth-child(2n) {
 	border: 2px solid var(--green-dim);
 }
+
 .card-item:nth-child(2n) .card-item-bg {
 	background-color: var(--green-dim);
 }
 
 
-.card-item:nth-child(3n){
+.card-item:nth-child(3n) {
 	border: 2px solid var(--aqua-dim);
 }
+
 .card-item:nth-child(3n) .card-item-bg {
 	background-color: var(--aqua-dim);
 }
 
 
-.card-item:nth-child(4n){
+.card-item:nth-child(4n) {
 	border: 2px solid var(--purple-dim);
 }
+
 .card-item:nth-child(4n) .card-item-bg {
 	background-color: var(--purple-dim);
 }
 
 
-.card-item:nth-child(5n){
+.card-item:nth-child(5n) {
 	border: 2px solid var(--red-dim);
 }
+
 .card-item:nth-child(5n) .card-item-bg {
 	background-color: var(--red-dim);
 }
 
 
-.card-item:nth-child(6n){
+.card-item:nth-child(6n) {
 	border: 2px solid var(--yellow-dim);
 }
+
 .card-item:nth-child(6n) .card-item-bg {
 	background-color: var(---yellow-dim);
 }

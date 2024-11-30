@@ -5,16 +5,25 @@
 	<title>
 		Experimental portfolio
 	</title>
-	<link rel="stylesheet" type="text/css" href="../css/exp.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link id="theme-style" rel="stylesheet" type="text/css" href="../css/colorschemes/dark.css">
 
 </head>
 
 <body>
 	<div class="god-container">
 		<!-- Awesome font, render in private window -->
-		<div class="welcome-heading-container">
-			<span id="welcome-heading">
+		<div class="top-container">
+			<span id="theme-container">
+				<button id="theme-toggle" aria-label="Toggle dark mode">
+					<span></span>
+					<span></span>
+				</button>
 			</span>
+			<div class="welcome-heading-container">
+				<span id="welcome-heading">
+				</span>
+			</div>
 		</div>
 		<div class="body-container">
 			<!-- Greeting box - Left half -->
@@ -70,6 +79,7 @@
 	</div>
 
 	<script type="module" src="../js/port-exp.js"></script>
+	<script type="module" src="../js/theme-switcher.js"></script>
 </body>
 
 </html>
