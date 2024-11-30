@@ -1,4 +1,4 @@
-  document.getElementById('theme-toggle').addEventListener('click', function() {
+  document.getElementById('themeToggle').addEventListener('click', function() {
     var link = document.getElementById('theme-style');
     
     // Check if the current stylesheet is the default one

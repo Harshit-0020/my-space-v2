@@ -30,56 +30,28 @@ body {
 /*TOP CONTAINER COMPLETE*/
 
 /*THEME CONTAINER*/
-.theme-container {
-	display: flex;
-}
-
-#theme-toggle {
-	background: 0;
-	border: 0;
-	box-sizing: border-box;
+.toggle-container {
 	cursor: pointer;
-	width: 30px;
-	height: 16px;
-	position: relative;
-	border: 1px solid rgba(255, 255, 255, 0);
-
-	/* Fixed position for this demo
-	position: fixed;
-	top: 16px;
-	right: 16px;
-	*/
 }
 
-#theme-toggle:focus {
-	outline: none;
-	/* Not ideal for accessibility */
+/* Styles for the sun and moon icons */
+.sun-icon,
+.moon-icon {
+	width: 2rem;
+	height: 2rem;
+	transition: opacity 0.8s;
+	padding: 20px;
 }
 
-#theme-toggle span:nth-child(1) {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 30px;
-	height: 16px;
-	background-color: #d6d7db;
-	border-radius: 9px;
-	box-shadow: inset 1px 1px 3px 0 rgb(0 0 0 / 40%);
-	transition: .3s;
+/* Show moon icon and hide sun icon in dark mode */
+.sun-icon {
+	display: none;
 }
 
-#theme-toggle span:nth-child(2) {
-	position: absolute;
-	top: 3px;
-	/* left: 3px; */
-	width: 10px;
-	height: 10px;
-	background-color: #fff;
-	border-radius: 50%;
-	box-shadow: 1px 1px 2px 0 rgb(0 0 0 / 40%);
-	transition: .3s;
+.moon-icon {
+	color: var(--fg);
+	display: inline-block;
 }
-
 
 /*THEME CONTAINER COMPLETE*/
 
